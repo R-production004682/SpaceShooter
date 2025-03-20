@@ -7,15 +7,20 @@ using Constant;
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerData playerData;
+    
+    public GameObject laserPrefub;
+    private ObjectPool laserPool;
 
     private void Start()
     {
         transform.position = Vector3.zero;
+        laserPool = FindObjectOfType<ObjectPool>();
     }
 
     private void Update()
     {
         HandleMovement();
+        ShotLaser();
     }
 
     /// <summary>
@@ -27,14 +32,45 @@ public class Player : MonoBehaviour
         var vertical = Input.GetAxis("Vertical");
 
         var moveDirection = new Vector2(horizontal, vertical).normalized;
-        transform.Translate(moveDirection * playerData.moveSpeed * Time.deltaTime);
+        var newPlayerPosition = (Vector2)transform.position + moveDirection 
+                                            * playerData.moveSpeed * Time.deltaTime;
 
+        transform.position = RestrictionMovementRange(newPlayerPosition);
+    }
 
-        Vector2 currentPosition = transform.position;
+    private void ShotLaser()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            var laser = laserPool.Launch(this.transform.position, 0);
 
-        // X²•ûŒü‚ÌˆÚ“®”ÍˆÍ‚Ì§ŒÀ‚ÆAY²•ûŒü‚ÌˆÚ“®”ÍˆÍ‚Ì§ŒÀ
-        currentPosition.x = Mathf.Clamp(currentPosition.x, LimitPlayerMove.LEFT, LimitPlayerMove.RIGHT);
-        currentPosition.y = Mathf.Clamp(currentPosition.y, LimitPlayerMove.BUTTOM, LimitPlayerMove.TOP);
-        transform.position = new Vector2(currentPosition.x, currentPosition.y);
+            if(laser == null)
+            {
+                 return;
+            }
+            laser.GetComponent<Laser>();
+        }
+    }
+
+    /// <summary>
+    /// ˆÚ“®”ÍˆÍ‚Ì§–ñ
+    /// </summary>
+    /// <returns></returns>
+    private Vector2 RestrictionMovementRange(Vector2 currentPlayerPosition)
+    {
+        // Y²•ûŒü‚ÌˆÚ“®”ÍˆÍ‚Ì§ŒÀ
+        currentPlayerPosition.y = Mathf.Clamp(currentPlayerPosition.y, playerData.moveLimitButtom, playerData.moveLimitTop);
+
+        // X²•ûŒü‚Ìƒ[ƒvˆ—
+        if (currentPlayerPosition.x > playerData.moveLimitRight)
+        {
+            currentPlayerPosition.x = playerData.moveLimitLeft;
+        }
+        else if (currentPlayerPosition.x < playerData.moveLimitLeft)
+        {
+            currentPlayerPosition.x = playerData.moveLimitRight;
+        }
+
+        return currentPlayerPosition;
     }
 }
