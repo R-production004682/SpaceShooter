@@ -7,6 +7,7 @@ public class PlayerData : ScriptableObject
 {
     [Header("Playerの詳細パラメータ")]
     public float moveSpeed = 3.5f;
+    public float shotInterval = 0.5f; // 射撃間隔
 
     [Header("Playerの移動可能範囲")]
     public float moveLimitTop = 0;

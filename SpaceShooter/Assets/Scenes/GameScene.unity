@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 378953148}
   m_Layer: 0
   m_Name: LaserPool
-  m_TagString: Untagged
+  m_TagString: ObjectPool
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -432,6 +432,9 @@ GameObject:
   - component: {fileID: 1827119317}
   - component: {fileID: 1827119316}
   - component: {fileID: 1827119320}
+  - component: {fileID: 1827119323}
+  - component: {fileID: 1827119322}
+  - component: {fileID: 1827119321}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -537,8 +540,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f60a50cc5d48e949b918c4de1353617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementController: {fileID: 1827119323}
+  shooter: {fileID: 1827119322}
+--- !u!114 &1827119321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827119315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cd20892033b4cb428fd74584e3ef3d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: 98236c7055e4a0843a729c4c3b6bfebd, type: 2}
-  laserPrefub: {fileID: 9140721928138813191, guid: 5b777648ebef7a34cbf4b387a5aea73f, type: 3}
+--- !u!114 &1827119322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827119315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71cf6f01a6accb4895a709438613eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 98236c7055e4a0843a729c4c3b6bfebd, type: 2}
+--- !u!114 &1827119323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827119315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46660800e74619409a750b768fd6a8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 98236c7055e4a0843a729c4c3b6bfebd, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

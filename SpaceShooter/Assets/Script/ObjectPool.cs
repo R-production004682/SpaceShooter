@@ -7,7 +7,7 @@ public class ObjectPool : MonoBehaviour
     [SerializeField] PoolContent content = null;
     Queue<PoolContent> bulletQueue;
 
-    [SerializeField] private int maxBullet = 30;
+    [SerializeField] private int maxBullet = 30; // éñëOÇ…ê∂ê¨ÇµÇƒÇ®Ç≠íeÇÃêî
 
     private void Start()
     {
@@ -26,10 +26,8 @@ public class ObjectPool : MonoBehaviour
 
     public PoolContent Launch(Vector3 position, float angle)
     {
-        if(bulletQueue.Count <= 0)
-        {
-            return null;
-        }
+        if(bulletQueue.Count <= 0) { return null; }
+        
 
         var temp = bulletQueue.Dequeue();
         temp.gameObject.SetActive(true);

@@ -10,10 +10,10 @@ public class Laser : MonoBehaviour
     
     private void Start()
     {
-        poolContent = transform.GetComponent<PoolContent>();    
+        poolContent = transform.GetComponent<PoolContent>();
     }
 
-    private void Update()
+    public void Update()
     {
         transform.Translate(Vector3.up * laserData.bulletSpeed * Time.deltaTime);
 
