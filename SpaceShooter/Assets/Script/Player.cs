@@ -38,6 +38,9 @@ public class Player : MonoBehaviour
         transform.position = RestrictionMovementRange(newPlayerPosition);
     }
 
+    /// <summary>
+    ///  QueueとStackを利用したオブジェクトプールな射撃のロジック
+    /// </summary>
     private void ShotLaser()
     {
         if(Input.GetKeyDown(KeyCode.Space))
