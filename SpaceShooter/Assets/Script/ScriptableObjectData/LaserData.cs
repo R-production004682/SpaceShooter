@@ -7,5 +7,6 @@ public class LaserData : ScriptableObject
 {
     [Header("’e‚ÌÚ×ƒpƒ‰ƒ[ƒ^")]
     public float bulletSpeed = 6;
+    public int giveDamage = 1;
 
 }
