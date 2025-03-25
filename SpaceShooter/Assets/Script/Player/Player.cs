@@ -10,4 +10,6 @@ public class Player : MonoBehaviour
         movementController.HandleMovement();
         shooter.HandleShooting();
     }
+
+
 }

@@ -38,7 +38,10 @@ public class PlayerShooter : MonoBehaviour
     {
         if(laserPool == null) { return; }
 
-        var laser = laserPool.Launch(this.transform.position, 0);
+        // 現在のPlayerのポジションから、ちょっと高い位置からLaserを発射する
+        var laserPosition = this.transform.position + new Vector3(0, 0.8f, 0);
+
+        var laser = laserPool.Launch(laserPosition, 0);
         if(laser == null) { return; }
 
         // ここでLaserクラスのメソッドを呼び出す（Updateで回しているため取得するだけでよい）
