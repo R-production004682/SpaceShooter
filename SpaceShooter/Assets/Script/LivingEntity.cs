@@ -6,13 +6,14 @@ using UnityEngine.Events;
 public class LivingEntity : MonoBehaviour, IHealth
 {
     [SerializeField] protected int maxHealth;
+    private SpawnManager spawnManager;
 
     protected int currentHealth;
     protected bool isInvincible = false;
 
 
     // UIに現在のHPを随時更新して表示したり、
-    // 死亡時に何かをする（エフェクトやサウンド）時に便利になるようにイベントで定義
+    // 死亡時に何かをする（エフェクトやサウンド）時に便利になるようにイベントで定義（あったら便利そうだから一応定義）
     public UnityEvent<int,int> OnHealthChanged; // (現在HP, 最大HP)
     public UnityEvent OnDeath;
 
@@ -22,7 +23,12 @@ public class LivingEntity : MonoBehaviour, IHealth
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
-    public virtual void TakeDamage(int damage)
+    /// <summary>
+    /// ダメージを与える処理
+    /// </summary>
+    /// <param name="damage">ダメージ量</param>
+    /// <param name="targetGameObject">ダメージを与える対象</param>
+    public virtual void TakeDamage(int damage , GameObject targetGameObject)
     {
         if(isInvincible || currentHealth <= 0) return;
 
@@ -33,15 +39,20 @@ public class LivingEntity : MonoBehaviour, IHealth
 
         if (currentHealth <= 0)
         {
-            Death();
+            Death(targetGameObject);
+
+            if(targetGameObject.CompareTag("Player"))
+            {
+                // Playerが死んだ場合、Enemyのスポーンを止める
+                spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+                if(spawnManager != null) Debug.Log("Playerが死んだ。"); return; 
+            }
         }
     }
 
-    public virtual void Death()
+    public virtual void Death(GameObject gameObject)
     {
-        Debug.Log($"{gameObject.name} Death!");
-
-        // 他のクラスでOnDeathに登録されたメソッドを実行
-        OnDeath?.Invoke();
+        Debug.Log($"{ gameObject.name } Death!");
+        Destroy(gameObject);
     }
 }

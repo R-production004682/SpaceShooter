@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PoolContent : MonoBehaviour
 {
-    ObjectPool pool;
+    LaserPool laserPool;
 
     private void Start()
     {
-        pool = transform.parent.GetComponent<ObjectPool>();
+        laserPool = transform.parent.GetComponent<LaserPool>();
         gameObject.SetActive(false);
     }
 
@@ -17,7 +17,7 @@ public class PoolContent : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <param name="angle"></param>
-    public void Show(Vector3 position, float angle)
+    public void ShowLaser(Vector3 position, float angle)
     {
         transform.position = position;
         transform.eulerAngles = new Vector3(0, angle, 0);
@@ -26,12 +26,12 @@ public class PoolContent : MonoBehaviour
     public void Hide()
     {
         Debug.Assert(gameObject.activeInHierarchy);
-        
-        if(pool == null)
+
+        if (laserPool == null)
         {
-            pool = transform.parent.GetComponent<ObjectPool>();
+            laserPool = transform.parent.GetComponent<LaserPool>();
         }
-        
-        pool.Collect(this);
+            
+        laserPool?.Collect(this);
     }
 }

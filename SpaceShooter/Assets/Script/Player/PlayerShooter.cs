@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,15 +6,15 @@ using UnityEngine;
 public class PlayerShooter : MonoBehaviour
 {
     [SerializeField] private PlayerData playerData;
-    private ObjectPool laserPool;
+    private LaserPool laserPool;
     private float enableShooting = -1f;
 
     private void Start()
     {
         // èââÒÇÃÇ›FindÇ≈íTÇ∑
-        laserPool = GameObject.FindWithTag("ObjectPool").GetComponent<ObjectPool>();
+        laserPool = GameObject.FindWithTag("LaserPool").GetComponent<LaserPool>();
 
-        if(laserPool == null) { Debug.LogError("ObjectPool Not Found"); }
+        if(laserPool == null) { Debug.LogError("LaserPool Not Found"); }
         
     }
 

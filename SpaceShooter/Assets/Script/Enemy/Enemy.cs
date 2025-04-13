@@ -1,32 +1,32 @@
+using Constant;
+using System.ComponentModel.Design;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyData enemyData;
 
-    PoolContent poolContent;
-
-    private void Start()
-    {
-        poolContent = transform.GetComponent<PoolContent>();
-    }
-
     private void Update()
     {
         transform.Translate(Vector3.down * enemyData.moveSpeed * Time.deltaTime);
 
-        if (transform.position.y < -5.0f)
+        if(transform.position.y < -5f)
         {
-            float randomX = Random.Range(-9.0f, 9.0f);
-            transform.position = new Vector3(randomX, 7, 0);
+            var randomX = Random.Range(LimitedPosition.LEFT, LimitedPosition.RIGHT);
+            transform.position = new Vector3(randomX, LimitedPosition.SPAWN_TOP, 0);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Laser")
+        if (other.gameObject.CompareTag("Player"))
         {
-            Destroy(this.gameObject);
+            IHealth target = other.GetComponent<IHealth>();
+            if (target != null) {
+
+                // Playerにダメージを与える。
+                target.TakeDamage(enemyData.giveDamage, other.gameObject);
+            }
         }
     }
 }
