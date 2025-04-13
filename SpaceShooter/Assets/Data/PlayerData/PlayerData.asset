@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd631192ba3eb4f46ae02e72a5b3c0fa, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  shotInterval: 0.15
-  moveLimitTop: 0
-  moveLimitButtom: -3.8
-  moveLimitLeft: -11
-  moveLimitRight: 11
+  moveSpeed: 14
+  shotInterval: 0.1
+  playerMaxLife: 5

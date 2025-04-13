@@ -7,6 +7,9 @@ TagManager:
   - ObjectPool
   - Enemy
   - Laser
+  - LaserPool
+  - EnemyPool
+  - SpawnManager
   layers:
   - Default
   - TransparentFX

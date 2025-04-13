@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPool : MonoBehaviour
+public class LaserPool : MonoBehaviour
 {
     [SerializeField] PoolContent content = null;
     Queue<PoolContent> bulletQueue;
@@ -18,8 +18,8 @@ public class ObjectPool : MonoBehaviour
             var templateObj = Instantiate(content);
             templateObj.transform.parent = transform;
 
-            // 画面の外に配置
-            templateObj.transform.localPosition = new Vector3(100,100,100);
+            // 画面外に配置
+            templateObj.transform.localPosition = Vector3.one * 100;
             bulletQueue.Enqueue(templateObj);
         }
     }
@@ -28,10 +28,9 @@ public class ObjectPool : MonoBehaviour
     {
         if(bulletQueue.Count <= 0) { return null; }
         
-
         var temp = bulletQueue.Dequeue();
         temp.gameObject.SetActive(true);
-        temp.Show(position, angle);
+        temp.ShowLaser(position, angle);
         return temp;
     }
 

@@ -12,9 +12,8 @@ public class EnemyHealth : LivingEntity
         base.Start();
     }
 
-    public override void Death()
+    public override void Death(GameObject gameObject)
     {
-        Debug.Log("Enemy Death!");
-        base.Death();
+        base.Death(gameObject);
     }
 }
