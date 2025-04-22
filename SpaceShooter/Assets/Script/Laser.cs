@@ -24,10 +24,9 @@ public class Laser : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log($"LaserHit : { other.gameObject.name }");
-        
         if (other.gameObject.CompareTag("Enemy"))
         {
             IHealth target = other.GetComponent<IHealth>();
@@ -35,7 +34,6 @@ public class Laser : MonoBehaviour
             {
                 target.TakeDamage(laserData.giveDamage, other.gameObject);
             }
-
             poolContent.Hide();
         }
     }

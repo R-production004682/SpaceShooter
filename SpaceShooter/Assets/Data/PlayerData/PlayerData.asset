@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd631192ba3eb4f46ae02e72a5b3c0fa, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  moveSpeed: 14
+  moveSpeed: 10
+  boostMoveSpeed: 14
   shotInterval: 0.1
   playerMaxLife: 5

@@ -1,25 +1,26 @@
+using Constant;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LaserPool : MonoBehaviour
 {
+    [SerializeField] private int maxBullet = 30;
     [SerializeField] PoolContent content = null;
-    Queue<PoolContent> bulletQueue;
 
-    [SerializeField] private int maxBullet = 30; // 事前に生成しておく弾の数
+    Queue<PoolContent> bulletQueue;
 
     private void Start()
     {
         bulletQueue = new Queue<PoolContent>();
 
+        // 画面外に弾を事前に生成
         for (int i = 0; i < maxBullet; i++)
         {
             var templateObj = Instantiate(content);
             templateObj.transform.parent = transform;
-
-            // 画面外に配置
-            templateObj.transform.localPosition = Vector3.one * 100;
+            templateObj.transform.localPosition = Vector3.one * StartGenerateActorInfo.POSITION;
             bulletQueue.Enqueue(templateObj);
         }
     }
@@ -30,7 +31,9 @@ public class LaserPool : MonoBehaviour
         
         var temp = bulletQueue.Dequeue();
         temp.gameObject.SetActive(true);
+
         temp.ShowLaser(position, angle);
+
         return temp;
     }
 

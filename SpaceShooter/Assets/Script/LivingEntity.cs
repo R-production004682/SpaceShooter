@@ -9,7 +9,7 @@ public class LivingEntity : MonoBehaviour, IHealth
     private SpawnManager spawnManager;
 
     protected int currentHealth;
-    protected bool isInvincible = false;
+    protected bool isInvincible;
 
 
     // UIに現在のHPを随時更新して表示したり、
@@ -30,7 +30,8 @@ public class LivingEntity : MonoBehaviour, IHealth
     /// <param name="targetGameObject">ダメージを与える対象</param>
     public virtual void TakeDamage(int damage , GameObject targetGameObject)
     {
-        if(isInvincible || currentHealth <= 0) return;
+        Debug.Log(isInvincible);
+        if(isInvincible || currentHealth <= 0) return; 
 
         currentHealth -= damage;
 
@@ -50,6 +51,22 @@ public class LivingEntity : MonoBehaviour, IHealth
         }
     }
 
+    public void ActivateShield(float duration)
+    {
+        StartCoroutine(ShieldRoutine(duration));
+    }
+
+    private IEnumerator ShieldRoutine(float duration)
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(duration);
+        isInvincible = false;
+    }
+
+    /// <summary>
+    /// 死亡時処理
+    /// </summary>
+    /// <param name="gameObject"></param>
     public virtual void Death(GameObject gameObject)
     {
         Debug.Log($"{ gameObject.name } Death!");
