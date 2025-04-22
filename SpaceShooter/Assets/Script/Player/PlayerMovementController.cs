@@ -10,20 +10,42 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     private BoundaryController boundaryController;
 
+    private bool isBoosting = false;
+
     private void Awake()
     {
         boundaryController = GetComponent<BoundaryController>();
     }
 
-    public void HandleMovement()
+    public Vector2 InputMoveDirection()
     {
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
 
-        var moveDirection = new Vector2(horizontal, vertical).normalized;
+        return new Vector2(horizontal, vertical).normalized;
+
+    }
+
+    public void HandleMovement()
+    {
+        var moveDirection = InputMoveDirection();
+        var moveSpeed = isBoosting ? playerData.boostMoveSpeed : playerData.moveSpeed;
+
         var newPlayerPosition = (Vector2)transform.position + moveDirection
-                                            * playerData.moveSpeed * Time.deltaTime;
+                                            * moveSpeed * Time.deltaTime;
 
         transform.position = boundaryController.RestrictionMovementRange(newPlayerPosition);
+    }
+
+    public void ActivateBoostSpeed(float duration)
+    {
+        StartCoroutine(BoostSpeedMovement(duration));
+    }
+
+    public IEnumerator BoostSpeedMovement(float duration)
+    {
+        isBoosting = true;
+        yield return new WaitForSeconds(duration);
+        isBoosting = false;
     }
 }

@@ -19,7 +19,7 @@ public class PoolContent : MonoBehaviour
     /// <param name="angle"></param>
     public void ShowLaser(Vector3 position, float angle)
     {
-        transform.position = position;
+        transform.position = position;   
         transform.eulerAngles = new Vector3(0, angle, 0);
     }
 

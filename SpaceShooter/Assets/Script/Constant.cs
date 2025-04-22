@@ -17,8 +17,30 @@ namespace Constant
         public const float RIGHT = 11.0f;
     }
 
-    public static class ReSpawn
+    /// <summary>
+    /// ゲームプレイ時に最初に生成するオブジェクト
+    /// </summary>
+    public static class StartGenerateActorInfo
     {
-        public const float TIME = 5.0f;
+        public const float POSITION = 100.0f;
+    }
+
+    /// <summary>
+    /// 復活するまでの時間
+    /// </summary>
+    public static class SpawnObjectTime
+    {
+        public const float ENEMY = 5.0f;
+        public const float BOOSTERS_ITEM = 3.0f;
+        public const float SHIELD_ITEM = 4.0f;
+        public const float SPEEDUP_ITEM = 4.0f;
+    }
+
+    /// <summary>
+    /// アイテムの効果周り
+    /// </summary>
+    public static class ItemEffectInfo
+    {
+        public const float BOOSTERS_ITEM_ENABLE_TIME = 6.0f;
     }
 }
