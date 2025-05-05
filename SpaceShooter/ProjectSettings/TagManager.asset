@@ -12,6 +12,7 @@ TagManager:
   - SpawnManager
   - TripleLaser
   - Item
+  - UIManager
   layers:
   - Default
   - TransparentFX

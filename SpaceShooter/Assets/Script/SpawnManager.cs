@@ -7,7 +7,9 @@ using static UnityEditor.Progress;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject astroidPrefab;
     [SerializeField] private GameObject enemyContainer;
+    [SerializeField] private GameObject astroidContainer; 
     [SerializeField] private GameObject tripleShotPrefab;
     [SerializeField] private GameObject shieldPrefab;
     [SerializeField] private GameObject speedupPrefab;
@@ -18,7 +20,6 @@ public class SpawnManager : MonoBehaviour
 
     private void Awake()
     {
-        // 初回のみFindする。
         item = tripleShotPrefab.GetComponent<Item>();
         if (item == null) { Debug.LogError("Item Not Found"); }
 
@@ -27,9 +28,9 @@ public class SpawnManager : MonoBehaviour
 
     private void Start()
     {
-
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnItemRoutine());
+        StartCoroutine(SpawnAstroidRoutine());
     }
 
     /// <summary>
@@ -99,6 +100,27 @@ public class SpawnManager : MonoBehaviour
             {
                 Instantiate(selectedItemPrefab, spawnPosition, Quaternion.identity);
             }
+        }
+    }
+
+    /// <summary>
+    /// 隕石のスポーンコルーチン
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator SpawnAstroidRoutine()
+    {
+        while(!_stopSpawning)
+        {
+            var spawnPosition = new Vector3
+            (
+                UnityEngine.Random.Range(LimitedPosition.LEFT, LimitedPosition.RIGHT),
+                LimitedPosition.SPAWN_TOP,
+                0
+            );
+
+            var newAstroid = Instantiate(astroidPrefab, spawnPosition, Quaternion.identity);
+            newAstroid.transform.parent = astroidContainer.transform;
+            yield return new WaitForSeconds(SpawnObjectTime.ASTRPID);
         }
     }
 }
