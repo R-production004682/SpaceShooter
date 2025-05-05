@@ -42,7 +42,7 @@ public class PlayerShooter : MonoBehaviour
     }
 
     /// <summary>
-    ///  QueueとStackを利用したオブジェクトプールな射撃のロジック
+    ///  Queueを利用したオブジェクトプールな射撃のロジック
     /// </summary>
     public void HandleShooting()
     {

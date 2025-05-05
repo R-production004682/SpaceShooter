@@ -15,4 +15,4 @@ MonoBehaviour:
   moveSpeed: 10
   boostMoveSpeed: 14
   shotInterval: 0.1
-  playerMaxLife: 5
+  playerMaxLife: 3
