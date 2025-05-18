@@ -6,29 +6,30 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private PlayerMovementController movementController;
-    [SerializeField] private PlayerShooter shooter;
+    [SerializeField] private PlayerShooter playerShooter;
     [SerializeField] private PlayerData playerData;
-    [SerializeField] private GameObject leftEngine, rightEngine;
+    [SerializeField] private GameObject leftEngineEffect, rightEngineEffect, destroyEffect;
 
     private PlayerHealth health;
 
     private void Start()
     {
         health = GetComponent<PlayerHealth>();
-        leftEngine.SetActive(false);
-        rightEngine.SetActive(false);
+        leftEngineEffect.SetActive(false);
+        rightEngineEffect.SetActive(false);
+        destroyEffect.SetActive(false);
     }
 
     private void Update()
     {
-        movementController.HandleMovement();
-        shooter.HandleShooting();
+        movementController.HandleMovement(playerData);
+        playerShooter.HandleShooting(playerData);
         PlayerDamageLevel();
     }
 
     public void EnableTripleShot(float duration)
     {
-        shooter.ActivateTripleShot(duration);
+        playerShooter.ActivateTripleShot(duration);
     }
 
     public void EnableSpeedup(float duration)
@@ -44,11 +45,15 @@ public class Player : MonoBehaviour
 
         if(playerCurrentHealth == DamageLevel.INSIGNIFICANT)
         {
-            leftEngine.SetActive(true);
+            leftEngineEffect.SetActive(true);
         }
         else if(playerCurrentHealth == DamageLevel.MEDIUM_DEGREE) 
         {
-            rightEngine.SetActive(true);
+            rightEngineEffect.SetActive(true);
+        }
+        else if(playerCurrentHealth == DamageLevel.SERIOUS)
+        {
+            destroyEffect.SetActive(true);
         }
     }
 }

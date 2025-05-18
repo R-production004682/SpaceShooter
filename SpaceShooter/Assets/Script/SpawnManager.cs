@@ -14,7 +14,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject shieldPrefab;
     [SerializeField] private GameObject speedupPrefab;
 
-    private bool _stopSpawning;
+    private bool stopSpawning;
     private Item item;
     private int itemElementCount = 0;
 
@@ -34,13 +34,22 @@ public class SpawnManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 全てのスポーンを止める
+    /// </summary>
+    public void StopAllSpawn()
+    {
+        stopSpawning = true;
+    }
+
+
+    /// <summary>
     /// 敵のスポーンコルーチン
     /// </summary>
     /// <param name="spawnPosition"></param>
     /// <returns></returns>
     private IEnumerator SpawnEnemyRoutine()
     {
-        while (!_stopSpawning) 
+        while (!stopSpawning) 
         {
             var spawnPosition = new Vector3
             (
@@ -62,7 +71,7 @@ public class SpawnManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator SpawnItemRoutine()
     {
-        while (!_stopSpawning)
+        while (!stopSpawning)
         {
             var random = UnityEngine.Random.Range(0, itemElementCount); // 0: POWERUP, 1: SHIELD, 2: SPEEDUP
             GameObject selectedItemPrefab = null;
@@ -109,7 +118,7 @@ public class SpawnManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator SpawnAstroidRoutine()
     {
-        while(!_stopSpawning)
+        while(!stopSpawning)
         {
             var spawnPosition = new Vector3
             (

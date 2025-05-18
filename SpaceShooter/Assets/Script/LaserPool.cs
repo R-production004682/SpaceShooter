@@ -25,15 +25,13 @@ public class LaserPool : MonoBehaviour
         }
     }
 
-    public PoolContent Launch(Vector3 position, float angle)
+    public PoolContent Launch(Vector3 position, float angle, Laser.LaserOwner laserOwner)
     {
-        if(bulletQueue.Count <= 0) { return null; }
-        
+        if (bulletQueue.Count <= 0) { return null; }
+
         var temp = bulletQueue.Dequeue();
         temp.gameObject.SetActive(true);
-
-        temp.ShowLaser(position, angle);
-
+        temp.ShowLaser(position, angle, laserOwner);
         return temp;
     }
 

@@ -39,6 +39,7 @@ public class Astroid : MonoBehaviour
     {
         if(other.CompareTag("Laser"))
         {
+            AudioManager.Instance?.PlayExplosion();
             animator?.gameObject.SetActive(true);
             Destroy(gameObject, 0.7f);
         }

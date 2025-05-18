@@ -65,4 +65,15 @@ namespace Constant
         public const string MAIN = "MainScene";
         public const string INGAME = "GameScene";
     }
+
+    public static class CameraEffect
+    {
+        // カメラシェイク弱
+        public const float WEAK_SHAKE_X = 0.03f;
+        public const float WEAK_SHAKE_Y = 0.03f;
+        // カメラシェイク強
+        public const float STRONG_SHAKE_X = 0.2f;
+        public const float STRONG_SHAKE_Y = 0.2f;
+
+    }
 }

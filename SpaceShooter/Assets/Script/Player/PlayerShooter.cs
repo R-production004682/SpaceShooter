@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Constant;
 
 /// <summary>
 /// 射撃処理クラス
@@ -15,10 +16,10 @@ public class PlayerShooter : MonoBehaviour
     public BulletType bulletType;
 
 
-    [SerializeField] private PlayerData playerData;
     [SerializeField] private LaserData laserData;
 
     private float enableShooting = -1f;
+    private bool isShoothing;
     private LaserPool laserPool;
     private Dictionary<BulletType, List<Vector3>> bulletPositionMap;
 
@@ -37,19 +38,25 @@ public class PlayerShooter : MonoBehaviour
         // 初回のみFindで探す
         laserPool = GameObject.FindWithTag("LaserPool").GetComponent<LaserPool>();
 
-        if(laserPool == null) { Debug.LogError("LaserPool Not Found"); }
-        
+        if(laserPool == null) 
+        {
+            Debug.LogError("LaserPool Not Found");
+        }
+
+        isShoothing = true;
     }
 
     /// <summary>
     ///  Queueを利用したオブジェクトプールな射撃のロジック
     /// </summary>
-    public void HandleShooting()
+    public void HandleShooting(PlayerData playerData)
     {
+        if(!isShoothing) return;
+
         // スペースキーまたは左クリックを押している間、一定間隔で射撃する
         if ((Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0)) && Time.time > enableShooting)
         {
-            //再装填までの時間を設定
+            // 再装填までの時間を設定
             enableShooting = Time.time + playerData.shotInterval;
             ShootLaser();
         }
@@ -62,21 +69,23 @@ public class PlayerShooter : MonoBehaviour
     {
         if(laserPool == null) { return; }
 
-        // ここのforeachでLaseDataに格納されている射出位置を切り替えられるようにしたい。。。
         foreach (var position in BulletPosition())
         {
-            var bulletPosition = transform.position + position;
-            laserPool.Launch(bulletPosition, 0);
+            var launchPosition = transform.position + position;
+            laserPool.Launch(launchPosition, 0, Laser.LaserOwner.Player);
         }
+
+        AudioManager.Instance?.PlayShoot();
     }
 
     /// <summary>
-    /// 弾の射出位置と、射出タイプを決める。
+    /// 射出タイプを決める。
     /// </summary>
-    /// <returns>弾の射出位置を返す</returns>
+    /// <returns></returns>
     private List<Vector3> BulletPosition()
     {
-        return bulletPositionMap.ContainsKey(bulletType) ? bulletPositionMap[bulletType] : new List<Vector3>();
+        return bulletPositionMap.ContainsKey(bulletType) 
+                       ? bulletPositionMap[bulletType] : new List<Vector3>();
     }
 
     /// <summary>
@@ -99,5 +108,10 @@ public class PlayerShooter : MonoBehaviour
         bulletType = BulletType.TRIPLE;
         yield return new WaitForSeconds(duration);
         bulletType =  BulletType.SINGLE;
+    }
+
+    public void DisableShoothing()
+    {
+        isShoothing = false;
     }
 }
