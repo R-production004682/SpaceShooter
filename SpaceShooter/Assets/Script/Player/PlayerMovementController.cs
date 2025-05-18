@@ -7,14 +7,17 @@ using UnityEngine;
 /// </summary>
 public class PlayerMovementController : MonoBehaviour
 {
-    [SerializeField] private PlayerData playerData;
     private BoundaryController boundaryController;
-
     private bool isBoosting = false;
-
+    private bool isMoving;
     private void Awake()
     {
         boundaryController = GetComponent<BoundaryController>();
+    }
+
+    private void Start()
+    {
+        isMoving = true;
     }
 
     public Vector2 InputMoveDirection()
@@ -26,8 +29,10 @@ public class PlayerMovementController : MonoBehaviour
 
     }
 
-    public void HandleMovement()
+    public void HandleMovement(PlayerData playerData)
     {
+        if(!isMoving) return;
+
         var moveDirection = InputMoveDirection();
         var moveSpeed = isBoosting ? playerData.boostMoveSpeed : playerData.moveSpeed;
 
@@ -47,5 +52,10 @@ public class PlayerMovementController : MonoBehaviour
         isBoosting = true;
         yield return new WaitForSeconds(duration);
         isBoosting = false;
+    }
+
+    public void DisableControl()
+    {
+        isMoving = false;
     }
 }

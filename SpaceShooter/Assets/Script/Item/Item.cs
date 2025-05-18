@@ -31,6 +31,7 @@ public abstract class Item : MonoBehaviour
             Player player = other.GetComponent<Player>();
             if(player != null)
             {
+                AudioManager.Instance?.PlayPowerUp();
                 ApplyEffect(player);
             }
             Destroy(this.gameObject);

@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Android.Types;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
+using Constant;
+using System;
 
 public class LivingEntity : MonoBehaviour, IHealth
 {
@@ -19,7 +17,7 @@ public class LivingEntity : MonoBehaviour, IHealth
     public int CurrentHealth => currentHealth;
 
     protected bool isDestroy;
-    public bool IsDestroy => isDestroy;
+    public event Action OnEntityDied;
 
     protected bool isInvincible;
 
@@ -43,8 +41,10 @@ public class LivingEntity : MonoBehaviour, IHealth
     public virtual void TakeDamage(int damage , GameObject targetGameObject)
     {
         if(isInvincible || currentHealth <= 0) return;
-
         currentHealth -= damage;
+
+        var flash = targetGameObject.GetComponent<FlashEffect>();
+        flash?.Flash();
 
         if (targetGameObject.CompareTag("Player"))
         {
@@ -64,19 +64,43 @@ public class LivingEntity : MonoBehaviour, IHealth
     /// <param name="gameObject"></param>
     public virtual void Death(GameObject gameObject)
     {
+        AudioManager.Instance?.PlayExplosion();
+
         if (gameObject.tag == "Enemy")
         {
             uIManager?.AddScore(10);
         }
         Collider2D collider2D = gameObject.GetComponent<Collider2D>();
         collider2D.enabled = false;
-        Destroy(gameObject, 2.5f);
+
+        if(gameObject.tag == "Player")
+        {
+            Destroy(gameObject, 0.9f);
+        }
+        else
+        {
+            Destroy(gameObject, 2.5f);
+        }
     }
 
 
     private void HandleDeath(GameObject targetGameObject)
     {
-        animator = GameObject.Find(targetGameObject.name).GetComponent<Animator>();
+        var mainCamera = Camera.main;
+        var shaker = mainCamera?.GetComponent<CameraShaker>();
+        if (shaker != null)
+        {
+            if (targetGameObject?.tag == "Player")
+            {
+                shaker.StartCoroutine(shaker.Shake(CameraEffect.STRONG_SHAKE_X, CameraEffect.STRONG_SHAKE_Y));
+            }
+            else if (targetGameObject?.tag == "Enemy")
+            {
+                shaker.StartCoroutine(shaker.Shake(CameraEffect.WEAK_SHAKE_X, CameraEffect.WEAK_SHAKE_Y));
+            }
+        }
+
+        animator = targetGameObject.GetComponent<Animator>();
 
         if (targetGameObject.CompareTag("Enemy"))
         {
@@ -84,16 +108,9 @@ public class LivingEntity : MonoBehaviour, IHealth
             animator?.SetTrigger("IsDestroy");
         }
 
-        if (targetGameObject.CompareTag("Player"))
-        {
-            // Playerが死んだ場合、Enemyのスポーンを止める
-            spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
-            if (spawnManager != null)
-            {
-                Debug.Log("Playerが撃墜された...");
-            }
-        }
+        PlayerDestory(targetGameObject);
 
+        OnEntityDied?.Invoke();
         Death(targetGameObject);
     }
 
@@ -124,5 +141,34 @@ public class LivingEntity : MonoBehaviour, IHealth
         yield return new WaitForSeconds(duration);
         isInvincible = false;
         shieldEffect.Deactivate();
+    }
+
+    /// <summary>
+    /// Playerが撃墜された際に、全ての行動を停止させる。
+    /// </summary>
+    /// <param name="targetGameObject"></param>
+    private void PlayerDestory(GameObject targetGameObject)
+    {
+        if(targetGameObject.CompareTag("Player"))
+        {
+            spawnManager = GameObject.Find("SpawnManager")?.GetComponent<SpawnManager>();
+            if (spawnManager != null)
+            {
+                spawnManager.StopAllSpawn();
+            }
+
+            // 全てのEnemyShooterを停止
+            foreach(var enemyShooter in FindObjectsOfType<EnemyShooter>())
+            {
+                enemyShooter.DisableShoothing();
+            }
+
+            // playerの制御も無効化
+            var player = targetGameObject.GetComponent<Player>();
+            player?.GetComponent<PlayerShooter>()?.DisableShoothing();
+            player?.GetComponent<PlayerMovementController>()?.DisableControl();
+
+            Debug.Log("`Playerが撃墜された。。。すべての行動を停止する。");
+        }
     }
 }

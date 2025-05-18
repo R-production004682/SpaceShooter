@@ -1,47 +1,54 @@
 using Constant;
-using System.ComponentModel.Design;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyData enemyData;
     [SerializeField] private Animator animator;
-    
-    private float destroyTime = 0.5f;
+    [SerializeField] private EnemyShooter enemyShooter;
+
     private EnemyHealth enemyHealth;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-        if (animator == null ) 
+        if (animator == null)
         {
-            Debug.LogError("Animator Not Found"); 
+            Debug.LogError("Animator Not Found");
         }
 
         enemyHealth = GetComponent<EnemyHealth>();
-        if(enemyHealth == null)
+        if (enemyHealth == null)
         {
             Debug.LogError("EnemyHealth Not Found");
+        }
+
+        enemyHealth = GetComponent<EnemyHealth>();
+        if (enemyHealth != null)
+        {
+            enemyHealth.OnEntityDied += () => {
+                enemyShooter.DisableShoothing();
+            };
         }
     }
 
     private void Update()
     {
         MoveHandler();
+        enemyShooter.HandleShooting(enemyData);
         RepositionIfOutOfBounds();
+        OnEnemyDied();
     }
 
     private void MoveHandler()
     {
         var enemyMoveSpeed = enemyData.moveSpeed * Time.deltaTime;
         transform.Translate(Vector3.down * enemyMoveSpeed);
+    }
 
-        if (enemyHealth.IsDestroy)
-        {
-            var destroySpeed = Mathf.Lerp(0 , enemyData.moveSpeed, destroyTime);
-            transform.Translate(Vector3.down * (enemyMoveSpeed - destroySpeed) * Time.deltaTime);
-        }
+    private void OnEnemyDied()
+    {
+        enemyShooter?.DisableShoothing();
     }
 
     private void RepositionIfOutOfBounds()
@@ -58,9 +65,9 @@ public class Enemy : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             IHealth target = other.GetComponent<IHealth>();
-            
+
             // Playerにダメージを与える。
-            target?.TakeDamage(enemyData.giveDamage, other.gameObject);            
+            target?.TakeDamage(enemyData.giveDamage, other.gameObject);
         }
     }
 }

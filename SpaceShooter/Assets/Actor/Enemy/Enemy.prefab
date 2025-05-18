@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 4456286885692682659}
   - component: {fileID: 6677984882804294945}
   - component: {fileID: 1181521592970271910}
+  - component: {fileID: -6121163877654370787}
+  - component: {fileID: -8826828854007923545}
   - component: {fileID: 7052593962654968900}
   m_Layer: 0
   m_Name: Enemy
@@ -31,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 697863583263254283}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.22, y: 3.15, z: -7.06069}
+  m_LocalPosition: {x: -0.22, y: 3.14, z: -7.06069}
   m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -121,7 +123,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.005699694, y: -0.45074725}
+  m_Offset: {x: 0.0056996346, y: 0.96400356}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -132,7 +134,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.9201803, y: 1.9858289}
+  m_Size: {x: 2.9201803, y: 1.1639726}
   m_EdgeRadius: 0
 --- !u!50 &4456286885692682659
 Rigidbody2D:
@@ -175,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: eaf58c1c833f8254398c75e275e58825, type: 2}
   animator: {fileID: 7052593962654968900}
+  enemyShooter: {fileID: -6121163877654370787}
 --- !u!114 &1181521592970271910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,6 +193,34 @@ MonoBehaviour:
   maxHealth: 0
   shieldEffect: {fileID: 0}
   enemyData: {fileID: 11400000, guid: eaf58c1c833f8254398c75e275e58825, type: 2}
+--- !u!114 &-6121163877654370787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697863583263254283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23efbcd74db1707498b47ddaa7bf596a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletType: 2
+  laserData: {fileID: 11400000, guid: 771da564f96dc5b468802c620e7d5cce, type: 2}
+--- !u!114 &-8826828854007923545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697863583263254283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b2c1f4eddf10884c91ed1eec3ebaba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashDuration: 0.1
+  flashCount: 2
 --- !u!95 &7052593962654968900
 Animator:
   serializedVersion: 5

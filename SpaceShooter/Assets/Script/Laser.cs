@@ -1,40 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Laser : MonoBehaviour
 {
     [SerializeField] public LaserData laserData;
     
-    PoolContent poolContent;
-    
+    private PoolContent poolContent;
+    private Vector3 moveDirection;
+
+    /// <summary>
+    /// どちらの機体から射出されたのかを見分けるEnum
+    /// </summary>
+    public enum LaserOwner
+    {
+        Player,
+        Enemy
+    }
+
+    private LaserOwner owner;
+
+
     private void Start()
     {
         poolContent = transform.GetComponent<PoolContent>();
     }
 
-    public void Update()
+    private void Update()
     {
-        transform.Translate(Vector3.up * laserData.bulletSpeed * Time.deltaTime);
+        transform.Translate(moveDirection * laserData.bulletSpeed * Time.deltaTime);
 
         // 画面外に出たら弾を隠す
-        if (transform.localPosition.y > 10)
+        if (transform.localPosition.y > 10 || transform.localPosition.y < -10)
         {
             poolContent.Hide();
         }
     }
 
+    public void SetOwner(LaserOwner laserOwner)
+    {
+        owner = laserOwner;
+    }
+
+
+    public void SetDirection(Vector3 direction)
+    {
+        moveDirection = direction;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log($"LaserHit : { other.gameObject.name }");
-        if (other.gameObject.CompareTag("Enemy"))
+        Debug.Log($"LaserHit : {other.gameObject.tag},{ other.gameObject.name}");
+        switch (owner)
         {
-            IHealth target = other.GetComponent<IHealth>();
-            if (target != null)
-            {
-                target.TakeDamage(laserData.giveDamage, other.gameObject);
-            }
-            poolContent.Hide();
+            case LaserOwner.Player:
+                if (other.CompareTag("Enemy"))
+                {
+                    var target = other.GetComponent<IHealth>();
+                    target?.TakeDamage(laserData.giveDamage, other.gameObject);
+                    poolContent.Hide();
+                }
+                break;
+
+            case LaserOwner.Enemy:
+                if (other.CompareTag("Player"))
+                {
+                    var target = other.GetComponent<IHealth>();
+                    target?.TakeDamage(laserData.giveDamage, other.gameObject);
+                    poolContent.Hide();
+                }
+                break;
+
+            default:
+                break;
         }
     }
 }
