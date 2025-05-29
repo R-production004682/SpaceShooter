@@ -18,7 +18,7 @@
 ☑ PlayerやEnemyが撃墜された際のカメラシェイク
 <br>
 
-【一旦完成】  
+【β版完成】  
 機体の傾き差分は、spriteの作成が思いのほか時間がかかったので今回は作りませんでした。  
-![無題の動画-‐-Clipchampで作成-_1_](https://github.com/user-attachments/assets/43d691f3-3703-45fb-ba2c-a4712a7af34e)
+![無題の動画-‐-Clipchampで作成-_1_](https://github.com/user-attachments/assets/43d691f3-3703-45fb-ba2c-a4712a7af34e)　　
 まだまだ改良の余地はあったのですが、細かい修正をし過ぎてきりがないので一旦完成にします。  
