@@ -28,6 +28,10 @@ public class FlashEffect : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ”í’e‚ÉÔ‚Æ’ÊíF‚ğŒğŒİ‚É“_–Å‚³‚¹‚é
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator FlashRoutine()
     {
         for(var i = 0; i < flashCount; i++)

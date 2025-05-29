@@ -63,7 +63,7 @@ namespace Constant
     public static class SceneNames
     {
         public const string MAIN = "MainScene";
-        public const string INGAME = "GameScene";
+        public const string GAME = "GameScene";
     }
 
     public static class CameraEffect

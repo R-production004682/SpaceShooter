@@ -35,15 +35,12 @@ public class PlayerShooter : MonoBehaviour
 
     private void Start()
     {
-        // èââÒÇÃÇ›FindÇ≈íTÇ∑
-        laserPool = GameObject.FindWithTag("LaserPool").GetComponent<LaserPool>();
-
-        if(laserPool == null) 
+        laserPool = LaserPool.Instance;
+        if (laserPool == null)
         {
             Debug.LogError("LaserPool Not Found");
         }
-
-        isShoothing = true;
+        enableShooting = 0;
     }
 
     /// <summary>
@@ -110,8 +107,8 @@ public class PlayerShooter : MonoBehaviour
         bulletType =  BulletType.SINGLE;
     }
 
-    public void DisableShoothing()
-    {
-        isShoothing = false;
-    }
+    public void EnableShooting() => isShoothing = true;
+
+    public void DisableShoothing() => isShoothing = false;
+
 }

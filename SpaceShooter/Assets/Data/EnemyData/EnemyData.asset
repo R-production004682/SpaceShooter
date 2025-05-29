@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3ab3820463ad140b9ea6d3348dd646, type: 3}
   m_Name: EnemyData
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  enemyMaxLife: 3
-  shotInterval: 3
+  moveSpeed: 3
+  enemyMaxLife: 5
+  shotInterval: 1.5
   giveDamage: 1

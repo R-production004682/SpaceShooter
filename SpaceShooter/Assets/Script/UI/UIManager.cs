@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private TextMeshProUGUI restartText;
+    [SerializeField] public TextMeshProUGUI countdownText;
     [SerializeField] private Image livesImage;
     [SerializeField] private List<Sprite> liveSprites;
 
@@ -21,9 +22,22 @@ public class UIManager : MonoBehaviour
     {
         scoreText.text = $"Score : {0}";
         livesImage.sprite = liveSprites[DamageLevel.ALL_GREEN];
+
         gameOverText.gameObject.SetActive(false);
         restartText.gameObject.SetActive(false);
     }
+
+    public void ShowCountdown(string text)
+    {
+        countdownText.gameObject.SetActive(true);
+        countdownText.text = text;
+    }
+
+    public void HideCountdown()
+    {
+        countdownText.gameObject.SetActive(false);
+    }
+
 
     public void AddScore(int score)
     {

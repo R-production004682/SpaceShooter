@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FX_Galaxy
-  m_Shader: {fileID: 4800000, guid: f1d12ddbfb576f44d8bd9396906bcc7b, type: 3}
+  m_Name: DisplayCracksMaterial
+  m_Shader: {fileID: 4800000, guid: b9bbba02b06b57647942dd18bf201a44, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,26 +23,21 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _CrackTex:
+        m_Texture: {fileID: 2800000, guid: 66796b3265cf43e4d8d527f1f1533bfe, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 351f30ffb741fd643b82bde90a222699, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6c7bece212afed44688c966f0c58ee65, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 2
-    - _CLAMPOUT: 0
-    - _Darkmatter: 25
-    - _Distfading: 68
-    - _Formuparam: 530
-    - _Iterations: 17
-    - _Saturation: 85
-    - _StepSize: 130
-    - _Tile: 700
-    - _Volsteps: 20
-    - _Zoom: 1200
+    - _CrackIntensity: 1
+    - _Glossiness: 0.5
+    - _Metallic: 0
+    - _RedFogIntensity: 1
+    - _WhiteFogIntensity: 0.15
     m_Colors:
-    - _Center: {r: 1, g: 0.3, b: 0.5, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Rotation: {r: 35, g: 25, b: 75, a: 0.1}
-    - _Scroll: {r: 37, g: 3.85, b: 1.49, a: 0.01}
   m_BuildTextureStacks: []

@@ -83,22 +83,10 @@ public class LivingEntity : MonoBehaviour, IHealth
         }
     }
 
-
     private void HandleDeath(GameObject targetGameObject)
     {
         var mainCamera = Camera.main;
         var shaker = mainCamera?.GetComponent<CameraShaker>();
-        if (shaker != null)
-        {
-            if (targetGameObject?.tag == "Player")
-            {
-                shaker.StartCoroutine(shaker.Shake(CameraEffect.STRONG_SHAKE_X, CameraEffect.STRONG_SHAKE_Y));
-            }
-            else if (targetGameObject?.tag == "Enemy")
-            {
-                shaker.StartCoroutine(shaker.Shake(CameraEffect.WEAK_SHAKE_X, CameraEffect.WEAK_SHAKE_Y));
-            }
-        }
 
         animator = targetGameObject.GetComponent<Animator>();
 

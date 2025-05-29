@@ -9,15 +9,10 @@ public class PlayerMovementController : MonoBehaviour
 {
     private BoundaryController boundaryController;
     private bool isBoosting = false;
-    private bool isMoving;
+    private bool isMoving = false;
     private void Awake()
     {
         boundaryController = GetComponent<BoundaryController>();
-    }
-
-    private void Start()
-    {
-        isMoving = true;
     }
 
     public Vector2 InputMoveDirection()
@@ -54,8 +49,7 @@ public class PlayerMovementController : MonoBehaviour
         isBoosting = false;
     }
 
-    public void DisableControl()
-    {
-        isMoving = false;
-    }
+    public void EnableControl() => isMoving = true;
+    public void DisableControl() => isMoving = false;
+    
 }

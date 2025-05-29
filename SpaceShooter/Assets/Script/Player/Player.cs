@@ -2,6 +2,7 @@ using Constant;
 using Unity.VisualScripting;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
+using static UnityEngine.Rendering.PostProcessing.PostProcessResources;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject leftEngineEffect, rightEngineEffect, destroyEffect;
 
     private PlayerHealth health;
+    private CameraShaker cameraShaker;
 
     private void Start()
     {
@@ -18,6 +20,8 @@ public class Player : MonoBehaviour
         leftEngineEffect.SetActive(false);
         rightEngineEffect.SetActive(false);
         destroyEffect.SetActive(false);
+
+        cameraShaker = Camera.main?.GetComponent<CameraShaker>();
     }
 
     private void Update()
@@ -53,7 +57,16 @@ public class Player : MonoBehaviour
         }
         else if(playerCurrentHealth == DamageLevel.SERIOUS)
         {
+            OnDestoryAnimationEnd();
             destroyEffect.SetActive(true);
+        }
+    }
+
+    private void OnDestoryAnimationEnd()
+    {
+        if(cameraShaker != null)
+        {
+            cameraShaker.StartCoroutine(cameraShaker.Shake(CameraEffect.STRONG_SHAKE_X, CameraEffect.STRONG_SHAKE_Y));
         }
     }
 }

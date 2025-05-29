@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerHealth : LivingEntity
 {
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private CrackedDisplay crackedDisplay;
 
     protected override void Start()
     {
@@ -12,8 +13,18 @@ public class PlayerHealth : LivingEntity
         base.Start();
     }
 
-    public override void Death(GameObject gameObject)
+    public override void TakeDamage(int damage, GameObject target)
     {
-        base.Death(gameObject);
+        base.TakeDamage(damage, target);
+    }
+
+    public override void Death(GameObject target)
+    {
+        base.Death(target);
+
+        if (target.CompareTag("Player") && crackedDisplay != null)
+        {
+            crackedDisplay.ExplodeScreen();
+        }
     }
 }

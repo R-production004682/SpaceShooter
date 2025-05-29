@@ -11,6 +11,19 @@ public class LaserPool : MonoBehaviour
 
     Queue<PoolContent> bulletQueue;
 
+    public static LaserPool Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // èdï°îrèú
+            return;
+        }
+
+        Instance = this;
+    }
+
     private void Start()
     {
         bulletQueue = new Queue<PoolContent>();
@@ -27,7 +40,11 @@ public class LaserPool : MonoBehaviour
 
     public PoolContent Launch(Vector3 position, float angle, Laser.LaserOwner laserOwner)
     {
-        if (bulletQueue.Count <= 0) { return null; }
+        if (bulletQueue.Count <= 0)
+        {
+            Debug.LogWarning("íeÇ™ë´ÇËÇ‹ÇπÇÒÅI");
+            return null;
+        }
 
         var temp = bulletQueue.Dequeue();
         temp.gameObject.SetActive(true);

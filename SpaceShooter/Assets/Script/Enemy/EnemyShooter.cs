@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class EnemyShooter : MonoBehaviour
 {
-    /// <summary>
-    /// 弾の射出タイプを定義
-    /// </summary>
     public enum BulletType { NONE, SINGLE, DOUBLE, TRIPLE }
     public BulletType bulletType;
 
     [SerializeField] private LaserData laserData;
+    [SerializeField] private float firstShotDelay = 0.3f; // オプション：画面に入ってから撃つまでの猶予時間
 
     private float enableShoothing = -1f;
     private bool isShoot;
+    private bool isVisible;
+
     private LaserPool laserPool;
     private Dictionary<BulletType, List<Vector3>> bulletPositionMap;
 
@@ -27,18 +27,19 @@ public class EnemyShooter : MonoBehaviour
 
     private void Start()
     {
-        laserPool = GameObject.FindWithTag("LaserPool").GetComponent<LaserPool>();
+        laserPool = LaserPool.Instance;
         if (laserPool == null)
         {
             Debug.LogError("LaserPool Not Found");
         }
 
         isShoot = true;
+        isVisible = false;
     }
 
     public void HandleShooting(EnemyData enemyData)
     {
-        if(!isShoot) return;
+        if (!isShoot || !isVisible) return;
 
         if (Time.time > enableShoothing)
         {
@@ -47,12 +48,9 @@ public class EnemyShooter : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 選択された射出タイプに乗っ取って射撃
-    /// </summary>
     private void ShootLaser()
     {
-        if (laserPool == null) { return; }
+        if (laserPool == null) return;
 
         foreach (var position in BulletPosition())
         {
@@ -63,14 +61,9 @@ public class EnemyShooter : MonoBehaviour
         AudioManager.Instance?.PlayShoot();
     }
 
-    /// <summary>
-    /// 弾の射出位置と射出タイプを決める。
-    /// </summary>
-    /// <returns></returns>
     private List<Vector3> BulletPosition()
     {
-        return bulletPositionMap.ContainsKey(bulletType) ?
-               bulletPositionMap[bulletType] : new List<Vector3>();
+        return bulletPositionMap.ContainsKey(bulletType) ? bulletPositionMap[bulletType] : new List<Vector3>();
     }
 
     public void DisableShoothing()
@@ -78,4 +71,14 @@ public class EnemyShooter : MonoBehaviour
         isShoot = false;
     }
 
+    private void OnBecameVisible()
+    {
+        isVisible = true;
+        enableShoothing = Time.time + firstShotDelay; // 最初のショットを少し遅らせる
+    }
+
+    private void OnBecameInvisible()
+    {
+        isVisible = false;
+    }
 }

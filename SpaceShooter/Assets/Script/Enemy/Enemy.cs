@@ -1,5 +1,6 @@
 using Constant;
 using UnityEngine;
+using static UnityEngine.Rendering.PostProcessing.PostProcessResources;
 
 public class Enemy : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyShooter enemyShooter;
 
     private EnemyHealth enemyHealth;
+    private CameraShaker cameraShaker;
 
     private void Start()
     {
@@ -27,9 +29,11 @@ public class Enemy : MonoBehaviour
         if (enemyHealth != null)
         {
             enemyHealth.OnEntityDied += () => {
-                enemyShooter.DisableShoothing();
+                enemyShooter?.DisableShoothing();
             };
         }
+
+        cameraShaker = Camera.main?.GetComponent<CameraShaker>();
     }
 
     private void Update()
@@ -37,18 +41,12 @@ public class Enemy : MonoBehaviour
         MoveHandler();
         enemyShooter.HandleShooting(enemyData);
         RepositionIfOutOfBounds();
-        OnEnemyDied();
     }
 
     private void MoveHandler()
     {
         var enemyMoveSpeed = enemyData.moveSpeed * Time.deltaTime;
         transform.Translate(Vector3.down * enemyMoveSpeed);
-    }
-
-    private void OnEnemyDied()
-    {
-        enemyShooter?.DisableShoothing();
     }
 
     private void RepositionIfOutOfBounds()
@@ -59,6 +57,15 @@ public class Enemy : MonoBehaviour
             transform.position = new Vector3(randomX, LimitedPosition.SPAWN_TOP, 0);
         }
     }
+
+    public void OnDestoroyAnimationEnd()
+    {
+        if(cameraShaker != null)
+        {
+            cameraShaker.StartCoroutine(cameraShaker.Shake(CameraEffect.WEAK_SHAKE_X, CameraEffect.WEAK_SHAKE_Y));
+        }
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
