@@ -38,6 +38,13 @@ public class LaserPool : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 弾を射出する
+    /// </summary>
+    /// <param name="position">射出位置</param>
+    /// <param name="angle">射出方向（角度）</param>
+    /// <param name="laserOwner">弾を発射した主のタイプ</param>
+    /// <returns></returns>
     public PoolContent Launch(Vector3 position, float angle, Laser.LaserOwner laserOwner)
     {
         if (bulletQueue.Count <= 0)
@@ -52,6 +59,10 @@ public class LaserPool : MonoBehaviour
         return temp;
     }
 
+    /// <summary>
+    /// 弾を集める
+    /// </summary>
+    /// <param name="bullet">集める弾</param>
     public void Collect(PoolContent bullet)
     {
         bullet.gameObject.SetActive(false);

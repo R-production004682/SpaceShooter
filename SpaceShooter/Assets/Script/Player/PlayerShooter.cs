@@ -25,6 +25,12 @@ public class PlayerShooter : MonoBehaviour
 
     private void Awake()
     {
+        laserPool = LaserPool.Instance;
+        if (laserPool == null)
+        {
+            Debug.LogError("LaserPool Not Found");
+        }
+
         bulletPositionMap = new Dictionary<BulletType, List<Vector3>>()
         {
             { BulletType.SINGLE, laserData.singleBulletPosition },
@@ -35,11 +41,6 @@ public class PlayerShooter : MonoBehaviour
 
     private void Start()
     {
-        laserPool = LaserPool.Instance;
-        if (laserPool == null)
-        {
-            Debug.LogError("LaserPool Not Found");
-        }
         enableShooting = 0;
     }
 

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PoolContent : MonoBehaviour
 {
-    LaserPool laserPool;
     Laser laser;
+    LaserPool laserPool;
 
     private void Start()
     {
@@ -17,8 +17,8 @@ public class PoolContent : MonoBehaviour
     /// <summary>
     /// ’e‚ğŒ©‚¹‚é
     /// </summary>
-    /// <param name="position"></param>
-    /// <param name="angle"></param>
+    /// <param name="position">ËoˆÊ’u</param>
+    /// <param name="angle">’e‚ÌËo•ûŒüiŠp“xj</param>
     public void ShowLaser(Vector3 position, float angle, Laser.LaserOwner laserOwner)
     {
         transform.position = position;
@@ -32,6 +32,9 @@ public class PoolContent : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ’e‚ğ‰B‚·
+    /// </summary>
     public void Hide()
     {
         Debug.Assert(gameObject.activeInHierarchy);

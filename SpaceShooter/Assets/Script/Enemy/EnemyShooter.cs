@@ -19,6 +19,12 @@ public class EnemyShooter : MonoBehaviour
 
     private void Awake()
     {
+        laserPool = LaserPool.Instance;
+        if (laserPool == null)
+        {
+            Debug.LogError("LaserPool Not Found");
+        }
+
         bulletPositionMap = new Dictionary<BulletType, List<Vector3>>()
         {
             { BulletType.DOUBLE, laserData.doubleBulletPosition }
@@ -27,12 +33,6 @@ public class EnemyShooter : MonoBehaviour
 
     private void Start()
     {
-        laserPool = LaserPool.Instance;
-        if (laserPool == null)
-        {
-            Debug.LogError("LaserPool Not Found");
-        }
-
         isShoot = true;
         isVisible = false;
     }
@@ -48,6 +48,9 @@ public class EnemyShooter : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 選択された射出タイプに乗っ取って射撃
+    /// </summary>
     private void ShootLaser()
     {
         if (laserPool == null) return;
@@ -61,11 +64,18 @@ public class EnemyShooter : MonoBehaviour
         AudioManager.Instance?.PlayShoot();
     }
 
+    /// <summary>
+    /// 射撃の射出位置
+    /// </summary>
+    /// <returns>射出位置を返す</returns>
     private List<Vector3> BulletPosition()
     {
         return bulletPositionMap.ContainsKey(bulletType) ? bulletPositionMap[bulletType] : new List<Vector3>();
     }
 
+    /// <summary>
+    /// 射撃をやめる
+    /// </summary>
     public void DisableShoothing()
     {
         isShoot = false;
@@ -74,7 +84,9 @@ public class EnemyShooter : MonoBehaviour
     private void OnBecameVisible()
     {
         isVisible = true;
-        enableShoothing = Time.time + firstShotDelay; // 最初のショットを少し遅らせる
+
+        // 最初のショットを少し遅らせる（画面外から撃たないように調整）
+        enableShoothing = Time.time + firstShotDelay; 
     }
 
     private void OnBecameInvisible()

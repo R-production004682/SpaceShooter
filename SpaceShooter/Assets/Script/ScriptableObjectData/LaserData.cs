@@ -6,7 +6,7 @@ using UnityEngine;
 public class LaserData : ScriptableObject
 {
     [Header("’e‚ÌÚ×ƒpƒ‰ƒ[ƒ^")]
-    public float bulletSpeed = 6;
+    public float bulletSpeed = 20;
     public int giveDamage = 1;
 
     [ReadOnly]

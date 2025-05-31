@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
                 Destroy(pool.gameObject);
             }
 
-            SceneManager.LoadScene(SceneNames.GAME);
+            SceneManager.LoadScene(SceneNames.MAIN);
         }
     }
 
